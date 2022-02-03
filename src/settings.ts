@@ -21,6 +21,10 @@ export var settings = {
    */
   webserviceEncodeParameters: true,
   /**
+   * Encode entire URL on calling restful web API
+   */
+  webserviceEncodeEntireUrl: false,
+  /**
    * Cache the result for choices getting from web services. Set this property to false, to disable the caching.
    */
   useCachingForChoicesRestful: true,

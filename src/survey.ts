@@ -5660,15 +5660,16 @@ export class SurveyModel extends SurveyElementCore
     return this.processText(options.html, true);
   }
   processText(text: string, returnDisplayValue: boolean): string {
-    return this.processTextEx(text, returnDisplayValue, false).text;
+    return this.processTextEx(text, returnDisplayValue, false, false).text;
   }
   processTextEx(
     text: string,
     returnDisplayValue: boolean,
-    doEncoding: boolean
+    doEncodingParams: boolean,
+    doEncodingUrl: boolean
   ): any {
     var res = {
-      text: this.processTextCore(text, returnDisplayValue, doEncoding),
+      text: this.processTextCore(text, returnDisplayValue, doEncodingParams, doEncodingUrl),
       hasAllValuesOnLastRun: true,
     };
     res.hasAllValuesOnLastRun = this.textPreProcessor.hasAllValuesOnLastRun;
@@ -5677,10 +5678,11 @@ export class SurveyModel extends SurveyElementCore
   private processTextCore(
     text: string,
     returnDisplayValue: boolean,
-    doEncoding: boolean = false
+    doEncodingParams: boolean = false,
+    doEncodingUrl: boolean = false
   ): string {
     if (this.isDesignMode) return text;
-    return this.textPreProcessor.process(text, returnDisplayValue, doEncoding);
+    return this.textPreProcessor.process(text, returnDisplayValue, doEncodingParams, doEncodingUrl);
   }
   getSurveyMarkdownHtml(element: Base, text: string, name: string): string {
     var options = {

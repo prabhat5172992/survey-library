@@ -56,6 +56,12 @@ export class ChoicesRestful extends Base {
   public static set EncodeParameters(val: boolean) {
     settings.webserviceEncodeParameters = val;
   }
+  public static get EncodeEntireUrl(): boolean {
+    return settings.webserviceEncodeEntireUrl;
+  }
+  public static set EncodeEntireUrl(val: boolean) {
+    settings.webserviceEncodeEntireUrl = val;
+  }
   public static clearCache() {
     ChoicesRestful.itemsResult = {};
     ChoicesRestful.sendingSameRequests = {};
@@ -176,12 +182,14 @@ export class ChoicesRestful extends Base {
       var pUrl = textProcessor.processTextEx(
         urlText,
         false,
-        settings.webserviceEncodeParameters
+        settings.webserviceEncodeParameters,
+        settings.webserviceEncodeEntireUrl
       );
       var pPath = textProcessor.processTextEx(
         this.path,
         false,
-        settings.webserviceEncodeParameters
+        settings.webserviceEncodeParameters,
+        settings.webserviceEncodeEntireUrl
       );
       if (!pUrl.hasAllValuesOnLastRun || !pPath.hasAllValuesOnLastRun) {
         this.processedUrl = "";

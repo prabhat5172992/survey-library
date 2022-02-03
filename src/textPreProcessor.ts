@@ -31,7 +31,8 @@ export class TextPreProcessor {
   public process(
     text: string,
     returnDisplayValue: boolean = false,
-    doEncoding: boolean = false
+    doEncodingParams: boolean = false,
+    doEncodingUrl: boolean = false,
   ): string {
     this.hasAllValuesOnLastRunValue = true;
     if (!text) return text;
@@ -55,11 +56,14 @@ export class TextPreProcessor {
       var replacedValue = !Helpers.isValueEmpty(textValue.value)
         ? textValue.value
         : "";
-      if (doEncoding) {
+      if (doEncodingParams) {
         replacedValue = encodeURIComponent(replacedValue);
       }
       text =
         text.substr(0, item.start) + replacedValue + text.substr(item.end + 1);
+    }
+    if (doEncodingUrl) {
+      text = encodeURI(text);
     }
     return text;
   }
@@ -170,7 +174,7 @@ export class QuestionTextProcessor implements ITextProcessor {
     var hasAllValuesOnLastRun = this.textPreProcessor.hasAllValuesOnLastRun;
     var res = { hasAllValuesOnLastRun: true, text: text };
     if (this.survey) {
-      res = this.survey.processTextEx(text, returnDisplayValue, false);
+      res = this.survey.processTextEx(text, returnDisplayValue, false, false);
     }
     res.hasAllValuesOnLastRun =
       res.hasAllValuesOnLastRun && hasAllValuesOnLastRun;

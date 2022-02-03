@@ -30,7 +30,8 @@ export interface ITextProcessor {
   processTextEx(
     text: string,
     returnDisplayValue: boolean,
-    doEncoding: boolean
+    doEncodingParams: boolean,
+    doEncodingUrl: boolean,
   ): any;
 }
 export interface ISurveyErrorOwner extends ILocalizableOwner {

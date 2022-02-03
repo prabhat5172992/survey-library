@@ -459,6 +459,39 @@ QUnit.test("encode parameters", function(assert) {
   settings.webserviceEncodeParameters = true;
 });
 
+QUnit.test("encode URL", function(assert) {
+  var survey = new SurveyModel();
+  survey.setValue("q1", "R&D");
+  var test = new ChoicesRestfulTester();
+  test.url = "TestUrl%A0/?a={q1}&c=d";
+  test.getResultCallback = function(res: Array<ItemValue>) {};
+
+  settings.webserviceEncodeParameters = false;
+  settings.webserviceEncodeEntireUrl = false;
+  test.run(survey);
+  assert.equal(test.testProcessedUrl, "TestUrl%A0/?a=R&D&c=d", "stop encoding");
+
+  settings.webserviceEncodeParameters = false;
+  settings.webserviceEncodeEntireUrl = true;
+  test.run(survey);
+  assert.equal(test.testProcessedUrl, "TestUrl%25A0/?a=R&D&c=d", "Set Encode only url");
+
+  settings.webserviceEncodeParameters = true;
+  settings.webserviceEncodeEntireUrl = false;
+  test.run(survey);
+  assert.equal(test.testProcessedUrl, "TestUrl%A0/?a=R%26D&c=d", "Set Encode only params");
+
+  /*
+  settings.webserviceEncodeParameters = true;
+  settings.webserviceEncodeEntireUrl = true;
+  test.run(survey);
+  assert.equal(test.testProcessedUrl, "TestUrl%25A0/?a=R%26D&c=d", "Set Encode the url and params");
+  */
+
+  settings.webserviceEncodeParameters = true;
+  settings.webserviceEncodeEntireUrl = false;
+});
+
 QUnit.test("Process text in event", function(assert) {
   var survey = new SurveyModel();
   survey.onProcessTextValue.add(function(sender, options) {
